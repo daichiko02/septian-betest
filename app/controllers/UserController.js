@@ -21,12 +21,16 @@ class UserController{
     this.router
       .route('/user/:id')
       .put(this.updateUser)
+    this.initBind();
+    service = this;
+  }
+
+  initBind(){
     this.validateToken = this.validateToken.bind(this);
     this.getUser = this.getUser.bind(this);
     this.addUser = this.addUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.updateUser = this.updateUser.bind(this);
-    service = this;
   }
 
   routes () {

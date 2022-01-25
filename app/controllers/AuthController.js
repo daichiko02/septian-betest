@@ -27,18 +27,10 @@ class AuthController {
     try{
       let jwtHeader = req.headers['x-access-token'];
       if(!jwtHeader) return res.status(500).send('JWT must not be null');
-      jwt.verify(jwtHeader, process.env.TOKEN_RAHASIA, (err, decoded) => {
-        if(err){
-          return res.status(500).send({
-            auth: false,
-            message: "Error",
-            errors: err
-          });
-        }
-        next();
-      });
+      jwt.verify(jwtHeader, process.env.SECRET_KEY);
+      next();
     }catch (error) {
-      res.status(400).send(error);
+      res.status(400).send('Invalid Token');
     }
   }
 

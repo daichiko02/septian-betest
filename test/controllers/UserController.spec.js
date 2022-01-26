@@ -37,4 +37,23 @@ describe('UserController', () => {
       done();
     });
   });
+
+  describe('#deleteUser', () => {
+    it('should return http status 200 when deleteUser succeed', async(done) => {
+      const user = new userModel({
+        id: 111,
+        userName: 'septian',
+        accountNumber: 123,
+        emailAddress: 'septian@gmail.com',
+        identityNumber: 11501,
+      })
+      userService.deleteUser = jest.fn().mockResolvedValue({deletedCount: 1})
+
+      await request(app)
+        .delete('/user/1')
+        .set('x-access-token', 'token')
+        .expect(200)
+      done();
+    });
+  });
 });

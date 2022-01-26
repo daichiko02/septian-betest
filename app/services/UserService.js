@@ -37,9 +37,14 @@ class UserService {
     }
   }
 
-  async updateUser(data){
+  async updateUser(id,data){
     try{
-      return await userModel.updateOne({id:data.id},{userName:data.userName, accountNumber:data.accountNumber, emailAddress:data.emailAddress, identityNumber:data.identityNumber});
+      const userName = data.userName;
+      const accountNumber = data.accountNumber;
+      const emailAddress = data.emailAddress;
+      const identityNumber = data.identityNumber;
+
+      return await userModel.updateOne({id:id},{userName:userName, accountNumber:accountNumber, emailAddress:emailAddress, identityNumber:identityNumber});
     }catch (error) {
       return error;
     }

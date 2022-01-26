@@ -58,28 +58,20 @@ class UserService {
     }
   }
 
-  async fetchUserByAccountNumber(accountNumber){
-    try{
-      return await userModel.findOne({accountNumber: accountNumber});
-    }catch (error) {
-      return error;
+  async getUser(data){
+    const identityNumber = data ? data.identityNumber : null;
+    const accountNumber = data ? data.accountNumber : null;
+    let user = null;
+    if(accountNumber){
+      user = await userModel.findOne({accountNumber: accountNumber});
     }
-  }
-
-  async fetchUserByIdentityNumber(identityNumber){
-    try{
-      return await userModel.findOne({identityNumber: identityNumber});
-    }catch (error) {
-      return error;
+    if(identityNumber){
+      user = await userModel.findOne({identityNumber: identityNumber});
     }
-  }
-
-  async getAllUser(){
-    try{
-      return await userModel.find({});
-    }catch (error) {
-      return error;
+    if(!accountNumber && !identityNumber){
+      user = await userModel.find({});
     }
+    return user;
   }
 }
 

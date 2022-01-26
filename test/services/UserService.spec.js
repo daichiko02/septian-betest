@@ -42,7 +42,7 @@ describe('UserService', () => {
       const expectedResult = 1;
       userModel.updateOne = jest.fn().mockReturnValue({modifiedCount: 1});
 
-      const actualResult = await userService.updateUser(user);
+      const actualResult = await userService.updateUser(user.id,user);
 
       expect(actualResult.modifiedCount).toBe(expectedResult);
     })
@@ -50,7 +50,7 @@ describe('UserService', () => {
     it('should return error connection when data updated unsuccessfully', async () => {
       userModel.updateOne = jest.fn().mockRejectedValue('connection lost');
 
-      const actualResult = await userService.updateUser(user);
+      const actualResult = await userService.updateUser(user.id,user);
 
       expect(actualResult).toBe('connection lost');
     })
@@ -75,58 +75,35 @@ describe('UserService', () => {
     })
   })
 
-  describe('#fetchUserByAccountNumber', () => {
-    it('should return one user when user found', async () => {
+  describe('#getUser', () => {
+    it('should return one user when get user by identityNumber succeed', async () => {
       userModel.findOne = jest.fn().mockReturnValue(user);
+      const requestQuery = {
+        identityNumber: user.identityNumber
+      }
 
-      const actualResult = await userService.fetchUserByAccountNumber(user.accountNumber);
+      const actualResult = await userService.getUser(requestQuery);
 
       expect(actualResult).toBe(user);
     })
 
-    it('should return error connection when get connection issue', async () => {
-      userModel.findOne = jest.fn().mockReturnValue('connection lost');
-
-      const actualResult = await userService.fetchUserByAccountNumber(user.accountNumber);
-
-      expect(actualResult).toBe('connection lost');
-    })
-  })
-
-  describe('#fetchUserByIdentityNumber', () => {
-    it('should return one user when user found', async () => {
+    it('should return one user when get user by accountNumber succeed', async () => {
       userModel.findOne = jest.fn().mockReturnValue(user);
+      const requestQuery = {
+        accountNumber: user.accountNumber
+      }
 
-      const actualResult = await userService.fetchUserByIdentityNumber(user.identityNumber);
+      const actualResult = await userService.getUser(requestQuery);
 
       expect(actualResult).toBe(user);
     })
 
-    it('should return error connection when get connection issue', async () => {
-      userModel.findOne = jest.fn().mockRejectedValue('connection lost');
+    it('should return all user when get user without query param', async () => {
+      userModel.find = jest.fn().mockReturnValue(user);
 
-      const actualResult = await userService.fetchUserByIdentityNumber(user.identityNumber);
+      const actualResult = await userService.getUser();
 
-      expect(actualResult).toBe('connection lost');
-    })
-  })
-
-  describe('#getAllUser', () => {
-    it('should return all user when get all user succeed', async () => {
-      const arrayObject = [user];
-      userModel.find = jest.fn().mockReturnValue(arrayObject);
-
-      const actualResult = await userService.getAllUser();
-
-      expect(actualResult).toStrictEqual(arrayObject);
-    })
-
-    it('should return error connection when get connection issue', async () => {
-      userModel.find = jest.fn().mockRejectedValue('connection lost');
-
-      const actualResult = await userService.getAllUser();
-
-      expect(actualResult).toBe('connection lost');
+      expect(actualResult).toBe(user);
     })
   })
 })

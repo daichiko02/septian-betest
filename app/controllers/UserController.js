@@ -43,18 +43,8 @@ class UserController{
 
   async getUser(req,res) {
     try{
-      const identityNumber = req.query.identityNumber;
-      const accountNumber = req.query.accountNumber;
-      let user = null;
-      if(accountNumber){
-        user = await userService.fetchUserByAccountNumber(accountNumber);
-      }
-      if(identityNumber){
-        user = await userService.fetchUserByIdentityNumber(identityNumber);
-      }
-      if(!accountNumber && !identityNumber){
-        user = await userService.getAllUser();
-      }
+      const requestQuery = req.query;
+      const user = await userService.getUser(requestQuery);
       if(!user){
         res.status(200).send('User not found');
       }else{

@@ -27,7 +27,7 @@ describe('UserController', () => {
         emailAddress: 'septian@gmail.com',
         identityNumber: 11501,
       })
-      userService.fetchUserByIdentityNumber = jest.fn().mockResolvedValue(user)
+      userService.getUser = jest.fn().mockResolvedValue(user)
 
       await request(app)
         .get('/user')

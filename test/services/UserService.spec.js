@@ -20,18 +20,18 @@ describe('UserService', () => {
       jest.spyOn(userModel.prototype, 'save')
         .mockImplementationOnce(() => Promise.resolve(user));
 
-      const actualResult = await userService.addUser(user);
-
-      expect(actualResult).toBe(user);
+      await userService.addUser(user, (err, result) => {
+        expect(result).toBe(user);
+      });
     })
 
-    it('should return error connection when data saved unsuccessfully', async () => {
+    it('should return error system error when data saved unsuccessfully', async () => {
       jest.spyOn(userModel.prototype, 'save')
         .mockImplementationOnce(() => Promise.reject('connection lost'));
 
-      const actualResult = await userService.addUser(user);
-
-      expect(actualResult).toBe('connection lost');
+      await userService.addUser(user, (err, result) => {
+        expect(result).toBe('System Error');
+      });
     })
   })
 

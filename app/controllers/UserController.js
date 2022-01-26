@@ -69,9 +69,13 @@ class UserController{
     try{
       const requestBody = req.body;
 
-      const result = await userService.addUser(requestBody);
-
-      res.status(200).send(result);
+      await userService.addUser(requestBody, (err, result) => {
+        if(err){
+          res.status(400).send(result);
+        }else {
+          res.status(200).send(result);
+        }
+      });
     }catch (error) {
       res.status(400).send(error);
     }

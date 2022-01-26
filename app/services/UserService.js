@@ -2,7 +2,7 @@ const userModel = require('../models/UserModel');
 
 class UserService {
 
-  async addUser(data) {
+  async addUser(data, callback) {
     try{
       const id = data.id;
       const userName = data.userName;
@@ -17,10 +17,14 @@ class UserService {
         emailAddress: emailAddress,
         identityNumber: identityNumber,
       })
-
-      return await user.save();
+      const result = await user.save();
+      if(callback){
+        callback(undefined, result);
+      }
     }catch (error) {
-      return error;
+      if(callback){
+        callback(error, 'System Error');
+      }
     }
   }
 

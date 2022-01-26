@@ -3,7 +3,6 @@ const app = express();
 const port = 3000;
 const mongoose = require('mongoose');
 const DATABASE = "mongodb+srv://septian-user:fm6Fs7KjQ8AAGd3N@cluster0.zv72p.mongodb.net/db_septian_betest?retryWrites=true&w=majority";
-const path = require('path');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser')
 const userController = require('./app/controllers/UserController')

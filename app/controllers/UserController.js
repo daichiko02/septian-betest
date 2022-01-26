@@ -67,21 +67,9 @@ class UserController{
 
   async addUser(req,res) {
     try{
-      const id = req.body.id;
-      const userName = req.body.userName;
-      const accountNumber = req.body.accountNumber;
-      const emailAddress = req.body.emailAddress;
-      const identityNumber = req.body.identityNumber;
+      const requestBody = req.body;
 
-      const user = new userModel({
-        id: id,
-        userName: userName,
-        accountNumber: accountNumber,
-        emailAddress: emailAddress,
-        identityNumber: identityNumber,
-      })
-
-      const result = await userService.addUser(user);
+      const result = await userService.addUser(requestBody);
 
       res.status(200).send(result);
     }catch (error) {

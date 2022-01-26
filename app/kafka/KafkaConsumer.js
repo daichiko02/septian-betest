@@ -26,8 +26,7 @@ class kafkaConsumer {
           value: message.value.toString(),
         })
         const data = JSON.parse(message.value.toString());
-        const user = new userModel(data);
-        await userService.addUser(user);
+        await userService.addUser(data);
       },
     })
   }

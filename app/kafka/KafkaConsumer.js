@@ -6,7 +6,7 @@ const kafka = new Kafka({
   brokers: ['localhost:9092']
 })
 
-const consumer = kafka.consumer({ groupId: 'test-group' })
+const consumer = kafka.consumer({ groupId: 'kafka_septian_betest' })
 
 class kafkaConsumer {
   constructor() {
@@ -15,7 +15,7 @@ class kafkaConsumer {
 
   async init(){
     await consumer.connect()
-    await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
+    await consumer.subscribe({ topic: 'kafka_septian_betest', fromBeginning: true })
 
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {

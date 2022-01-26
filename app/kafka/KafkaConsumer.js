@@ -26,7 +26,13 @@ class kafkaConsumer {
           value: message.value.toString(),
         })
         const data = JSON.parse(message.value.toString());
-        await userService.addUser(data,null);
+        await userService.addUser(data,(err, result) => {
+          if(err) {
+            console.log(result);
+          }else{
+            console.log('Successfully added user');
+          }
+        });
       },
     })
   }

@@ -4,19 +4,28 @@ class UserService {
 
   async addUser(data, callback) {
     try{
-      const id = data.id;
       const userName = data.userName;
       const accountNumber = data.accountNumber;
       const emailAddress = data.emailAddress;
       const identityNumber = data.identityNumber;
 
+      const existingUser = await userModel.find({});
+      const length = existingUser.length + 1;
+
       const user = new userModel({
-        id: id,
+        id: length,
         userName: userName,
         accountNumber: accountNumber,
         emailAddress: emailAddress,
         identityNumber: identityNumber,
       })
+
+      const userData = await userModel.find({accountNumber:accountNumber});
+      if(userData.length > 0){
+        callback('Error', 'accountNumber is exist');
+        return;
+      }
+
       const result = await user.save();
       if(callback){
         callback(undefined, result);

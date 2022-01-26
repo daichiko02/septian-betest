@@ -90,11 +90,10 @@ class UserController{
       const requestBody = req.body;
 
       const result = await userService.updateUser(id,requestBody);
-
       if(result.modifiedCount > 0){
         res.status(200).send('User updated successfully');
       }else{
-        res.status(200).send('User not found');
+        res.status(200).send(result.message || 'User updated failed');
       }
     }catch (error) {
       res.status(400).send(error);

@@ -44,6 +44,17 @@ class UserService {
       const emailAddress = data.emailAddress;
       const identityNumber = data.identityNumber;
 
+      const existingData = await userModel.find({id:id});
+      if(existingData.length < 1){
+        return {modifiedCount: 0, message: 'User not found'};
+      }
+      if(existingData[0].accountNumber != accountNumber){
+        const userData = await userModel.find({accountNumber:accountNumber});
+        if(userData.length > 0){
+          return {modifiedCount: 0, message: 'AccountNumber is Exist'};
+        }
+      }
+
       return await userModel.updateOne({id:id},{userName:userName, accountNumber:accountNumber, emailAddress:emailAddress, identityNumber:identityNumber});
     }catch (error) {
       return error;

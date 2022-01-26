@@ -41,6 +41,7 @@ describe('UserService', () => {
     it('should return modifiedCount equal to 1 when data updated successfully', async () => {
       const expectedResult = 1;
       userModel.updateOne = jest.fn().mockReturnValue({modifiedCount: 1});
+      userModel.find = jest.fn().mockReturnValue([user]);
 
       const actualResult = await userService.updateUser(user.id,user);
 
@@ -49,6 +50,7 @@ describe('UserService', () => {
 
     it('should return error connection when data updated unsuccessfully', async () => {
       userModel.updateOne = jest.fn().mockRejectedValue('connection lost');
+      userModel.find = jest.fn().mockReturnValue([user]);
 
       const actualResult = await userService.updateUser(user.id,user);
 

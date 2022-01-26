@@ -12,11 +12,13 @@ describe('UserService', () => {
       emailAddress: 'septian@gmail.com',
       identityNumber: 11501,
     })
+    jest.resetAllMocks();
   })
 
   describe('#addUser', () => {
     it('should return object user when data saved successfully', async () => {
-      user.save = jest.fn().mockReturnValue(user);
+      jest.spyOn(userModel.prototype, 'save')
+        .mockImplementationOnce(() => Promise.resolve(user));
 
       const actualResult = await userService.addUser(user);
 
@@ -24,7 +26,8 @@ describe('UserService', () => {
     })
 
     it('should return error connection when data saved unsuccessfully', async () => {
-      user.save = jest.fn().mockRejectedValue('connection lost');
+      jest.spyOn(userModel.prototype, 'save')
+        .mockImplementationOnce(() => Promise.reject('connection lost'));
 
       const actualResult = await userService.addUser(user);
 

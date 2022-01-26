@@ -1,5 +1,4 @@
 const authController = require('./AuthController')
-const userModel = require('../models/UserModel');
 const userService = require('../services/UserService');
 const router = require('express').Router();
 let service = null;

@@ -4,7 +4,21 @@ class UserService {
 
   async addUser(data) {
     try{
-      return await data.save();
+      const id = data.id;
+      const userName = data.userName;
+      const accountNumber = data.accountNumber;
+      const emailAddress = data.emailAddress;
+      const identityNumber = data.identityNumber;
+
+      const user = new userModel({
+        id: id,
+        userName: userName,
+        accountNumber: accountNumber,
+        emailAddress: emailAddress,
+        identityNumber: identityNumber,
+      })
+
+      return await user.save();
     }catch (error) {
       return error;
     }
